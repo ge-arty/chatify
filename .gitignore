@@ -1,0 +1,41 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm/
+.yarn/
+.pnpm-store/
+
+# TypeScript
+*.tsbuildinfo # TypeScript build info files
+
+# Compiled output
+dist/
+build/
+out/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Editor/IDE specific
+.vscode/        # VSCode settings (optional, if you don't want to share)
+.idea/          # IntelliJ IDEA
+*.sublime-project
+*.sublime-workspace
+.DS_Store       # macOS files
+Thumbs.db       # Windows files
+
+# Logs
+logs/
+*.log
+
+# Test coverage
+coverage/
+
+# Other
+*.tgz           # npm pack output
+.DS_Store
