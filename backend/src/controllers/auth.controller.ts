@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import User from '../models/user.model';
 import bcrypt from 'bcryptjs';
 import { generateToken } from '../lib/utils';
+import { sendWelcomeEmail } from '../emails/emailHandlers';
+import 'dotenv';
 
 export const signUp = async (req: Request, res: Response) => {
   try {
@@ -48,8 +50,18 @@ export const signUp = async (req: Request, res: Response) => {
         email: newUser.email,
         profilePic: newUser.profilePic,
       });
+
+      try {
+        const clientUrl = process.env.CLIENT_URL;
+
+        if (!clientUrl) throw new Error("Client url doesn't exist!");
+
+        await sendWelcomeEmail(savedUser.email, savedUser.fullName, clientUrl);
+      } catch (error) {
+        console.error('Failed to send welcome email:', error);
+      }
     } else {
-      res.status(400).json({ message: 'Invalid users data' });
+      res.status(400).json({ message: 'Invalid user data' });
     }
   } catch (error) {
     console.error('Error in signUp:', error);
