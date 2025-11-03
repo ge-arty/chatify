@@ -3,7 +3,7 @@ import User from '../models/user.model';
 import bcrypt from 'bcryptjs';
 import { generateToken } from '../lib/utils';
 import { sendWelcomeEmail } from '../emails/emailHandlers';
-import 'dotenv';
+import { ENV } from '../lib/env';
 
 export const signUp = async (req: Request, res: Response) => {
   try {
@@ -52,7 +52,7 @@ export const signUp = async (req: Request, res: Response) => {
       });
 
       try {
-        const clientUrl = process.env.CLIENT_URL;
+        const clientUrl = ENV.CLIENT_URL;
 
         if (!clientUrl) throw new Error("Client url doesn't exist!");
 
@@ -67,4 +67,35 @@ export const signUp = async (req: Request, res: Response) => {
     console.error('Error in signUp:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
+};
+
+export const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ email: email });
+    if (!user) return res.status(400).json({ message: 'Invalid Credentials' });
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) return res.status(400).json({ message: 'Invalid Credentials' });
+
+    generateToken(user._id.toString(), res);
+
+    res.status(201).json({
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      profilePic: user.profilePic,
+    });
+
+    res;
+  } catch (error) {
+    console.error('Error in login controller:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+export const logout = async (_: Request, res: Response) => {
+  res.cookie('jwt', '', { maxAge: 0 });
+  res.status(200).json({ message: 'Logged out successfully ' });
 };
