@@ -1,9 +1,11 @@
+import { UploadApiResponse } from './../../node_modules/cloudinary/types/index.d';
 import { Request, Response } from 'express';
 import User from '../models/user.model';
 import bcrypt from 'bcryptjs';
 import { generateToken } from '../lib/utils';
 import { sendWelcomeEmail } from '../emails/emailHandlers';
 import { ENV } from '../lib/env';
+import cloudinary from '../lib/cloudinary';
 
 export const signUp = async (req: Request, res: Response) => {
   try {
@@ -101,4 +103,26 @@ export const login = async (req: Request, res: Response) => {
 export const logout = async (_: Request, res: Response) => {
   res.cookie('jwt', '', { maxAge: 0 });
   res.status(200).json({ message: 'Logged out successfully ' });
+};
+
+export const updateProfile = async (req: Request, res: Response) => {
+  try {
+    const { profilePic } = req.body;
+    if (!profilePic) return res.status(400).json({ message: 'Profile pic is required' });
+
+    const userId = req.user._id;
+
+    const uploadRespose = await cloudinary.uploader.upload(profilePic);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { profilePic: uploadRespose.secure_url },
+      { new: true },
+    );
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.log('Error in update profile:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };
