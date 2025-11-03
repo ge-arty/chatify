@@ -17,6 +17,8 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@arcjet/inspect": "^1.0.0-beta.13",
+    "@arcjet/node": "^1.0.0-beta.13",
     "bcryptjs": "^3.0.2",
     "chatify-app": "file:..",
     "cloudinary": "^2.8.0",
