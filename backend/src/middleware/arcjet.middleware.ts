@@ -1,9 +1,13 @@
+// src/middleware/arcjetProtection.ts
 import { Request, Response, NextFunction } from 'express';
-import aj from '../lib/arcjet';
+import { getArcjet } from '../lib/arcjet';
 import { isSpoofedBot } from '@arcjet/inspect';
+
+const ajPromise = getArcjet(); // start init on first module load (but not awaited here)
 
 export const arcjetProtection = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const aj = await ajPromise; // cached promise => single init
     const decision = await aj.protect(req);
 
     if (decision.isDenied()) {
@@ -23,8 +27,9 @@ export const arcjetProtection = async (req: Request, res: Response, next: NextFu
     }
 
     next();
-  } catch (error) {
-    console.error('Arcjet protection error:', error);
+  } catch (err) {
+    console.error('Arcjet protection error:', err);
+    // Fail-open: allow request to continue if Arcjet init/protect fails
     next();
   }
 };
