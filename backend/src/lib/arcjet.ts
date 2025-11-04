@@ -1,5 +1,6 @@
-import arcjet, { shield, detectBot, slidingWindow } from '@arcjet/node';
-import { ENV } from './env';
+const arcjet = require('@arcjet/node').default; // arcjet is the default export
+const { shield, detectBot, slidingWindow } = require('@arcjet/node');
+const { ENV } = require('./env');
 
 if (!ENV.ARCJET_KEY) {
   throw new Error('ARCJET_KEY not defined in environment variables');
@@ -8,20 +9,11 @@ if (!ENV.ARCJET_KEY) {
 const aj = arcjet({
   key: ENV.ARCJET_KEY,
   rules: [
-    // Shield protects your app from common attacks (e.g. SQL injection)
     shield({ mode: 'LIVE' }),
-
-    // Bot detection
     detectBot({
-      mode: 'LIVE', // or "DRY_RUN" to test
-      allow: [
-        'CATEGORY:SEARCH_ENGINE',
-        // "CATEGORY:MONITOR",
-        // "CATEGORY:PREVIEW",
-      ],
+      mode: 'LIVE',
+      allow: ['CATEGORY:SEARCH_ENGINE'],
     }),
-
-    // Rate limiting: 100 requests per minute
     slidingWindow({
       mode: 'LIVE',
       max: 100,
@@ -30,4 +22,4 @@ const aj = arcjet({
   ],
 });
 
-export default aj;
+module.exports = aj;
