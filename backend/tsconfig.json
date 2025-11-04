@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
-    "module": "ESNext", // Use ESNext module system (ES modules)
-    "target": "ESNext", // Compile to the latest ECMAScript version
-    "moduleResolution": "node", // Resolve modules using Node.js style
-    "esModuleInterop": true, // Enables interop between ES modules and CommonJS
-    "allowSyntheticDefaultImports": true, // Allows default imports from modules with no default export
-    "strict": true, // Enables strict type-checking
-    "skipLibCheck": true, // Skip type-checking declaration files (faster builds)
-    "outDir": "./dist" // Specifies output directory for compiled files
+    "target": "ES2022",
+    "module": "CommonJS",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "types": ["node"],
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"] // Include all files under the src directory
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
