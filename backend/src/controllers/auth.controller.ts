@@ -1,11 +1,10 @@
-import { UploadApiResponse } from './../../node_modules/cloudinary/types/index.d';
 import { Request, Response } from 'express';
-import User from '../models/user.model';
+import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
-import { generateToken } from '../lib/utils';
-import { sendWelcomeEmail } from '../emails/emailHandlers';
-import { ENV } from '../lib/env';
-import cloudinary from '../lib/cloudinary';
+import { generateToken } from '../lib/utils.js';
+import { sendWelcomeEmail } from '../emails/emailHandlers.js';
+import { ENV } from '../lib/env.js';
+import cloudinary from '../lib/cloudinary.js';
 
 export const signUp = async (req: Request, res: Response) => {
   try {

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import User from '../models/user.model';
-import Message from '../models/message.model';
-import cloudinary from '../lib/cloudinary';
+import User from '../models/user.model.js';
+import Message from '../models/message.model.js';
+import cloudinary from '../lib/cloudinary.js';
 
 export const getAllContacts = async (req: Request, res: Response, next: NextFunction) => {
   try {

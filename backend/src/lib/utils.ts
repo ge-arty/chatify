@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { ENV } from './env';
+import { ENV } from './env.js';
 
 export const generateToken = (userId: string, res: Response) => {
   const jwtSecret = ENV.JWT_SECRET;

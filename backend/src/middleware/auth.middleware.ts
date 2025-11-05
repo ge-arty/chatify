@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import { ENV } from '../lib/env';
-import User, { IUser } from '../models/user.model';
+import { ENV } from '../lib/env.js';
+import User, { IUser } from '../models/user.model.js';
 
 declare global {
   namespace Express {
