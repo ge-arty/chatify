@@ -18,6 +18,7 @@ interface IAuthStore {
   isCheckingAuth: boolean;
   isSigningUp: boolean;
   isLoggingIn: boolean;
+  isUpdatingProfile: boolean;
   checkAuth: () => Promise<void>;
   signup: (data: {
     fullName: string;
@@ -26,13 +27,15 @@ interface IAuthStore {
   }) => Promise<void>;
   login: (data: { email: string; password: string }) => Promise<void>;
   logout: () => Promise<void>;
+  updateProfile: (data: { profilePic: string }) => void;
 }
 
-export const useAuthStore = create<IAuthStore>((set, get) => ({
+export const useAuthStore = create<IAuthStore>((set) => ({
   authUser: null,
   isCheckingAuth: true,
   isSigningUp: false,
   isLoggingIn: false,
+  isUpdatingProfile: false,
 
   checkAuth: async () => {
     try {
@@ -91,6 +94,20 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
     } catch (error) {
       toast.error("Error logging out");
       console.log("Logout error:", error);
+    }
+  },
+
+  updateProfile: async (data) => {
+    set({ isUpdatingProfile: true });
+    try {
+      const res = await axiosInstance.put("/auth/update-profile", data);
+      set({ authUser: res.data });
+      toast.success("Profile updated successfully");
+    } catch (error) {
+      toast.error("Error while updating profile picture");
+      console.log("Error in update profile:", error);
+    } finally {
+      set({ isUpdatingProfile: false });
     }
   },
 }));

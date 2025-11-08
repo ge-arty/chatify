@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import cors from 'cors';
 import { fileURLToPath } from 'url'; // ✅ Needed for ESM
 import cookieParser from 'cookie-parser';
 
@@ -16,7 +17,8 @@ const app = express();
 const PORT = ENV.PORT;
 
 // Middleware
-app.use(express.json());
+app.use(express.json({ limit: '5mb' }));
+app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
 app.use(cookieParser());
 
 // Routes
