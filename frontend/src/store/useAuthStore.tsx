@@ -8,26 +8,31 @@ interface IUser {
   email: string;
   fullName: string;
   profilePic?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+  __v?: number;
 }
 
 interface IAuthStore {
   authUser: null | IUser;
   isCheckingAuth: boolean;
   isSigningUp: boolean;
+  isLoggingIn: boolean;
   checkAuth: () => Promise<void>;
   signup: (data: {
     fullName: string;
     email: string;
     password: string;
   }) => Promise<void>;
+  login: (data: { email: string; password: string }) => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 export const useAuthStore = create<IAuthStore>((set, get) => ({
   authUser: null,
   isCheckingAuth: true,
   isSigningUp: false,
+  isLoggingIn: false,
 
   checkAuth: async () => {
     try {
@@ -56,6 +61,36 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
       }
     } finally {
       set({ isSigningUp: false });
+    }
+  },
+
+  login: async (data) => {
+    set({ isLoggingIn: true });
+    try {
+      const res = await axiosInstance.post("/auth/login", data);
+      set({ authUser: res.data });
+
+      toast.success("Logged in successfully!");
+    } catch (error) {
+      console.log("Error in signup:", error);
+      if (error instanceof AxiosError && error.response) {
+        toast.error(error.response.data.message || "Signin failed");
+      } else {
+        toast.error("An error occurred during signup");
+      }
+    } finally {
+      set({ isLoggingIn: false });
+    }
+  },
+
+  logout: async () => {
+    try {
+      await axiosInstance.post("/auth/logout");
+      set({ authUser: null });
+      toast.success("Logged out successfully");
+    } catch (error) {
+      toast.error("Error logging out");
+      console.log("Logout error:", error);
     }
   },
 }));
