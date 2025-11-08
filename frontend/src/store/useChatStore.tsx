@@ -143,17 +143,16 @@ export const useChatStore = create<IChatStore>((set, get) => ({
         messageData
       );
 
-      set({
-        messages: messages
-          .map((msg) => (msg._id === tempId ? res.data : msg))
-          .concat(
-            messages.some((msg) => msg._id === res.data._id) ? [] : [res.data]
-          ),
-      });
-    } catch (error: any) {
+      set({ messages: messages.concat(res.data) });
+    } catch (error) {
       // remove optimistic message on failure
-      set({ messages: messages.filter((msg) => msg._id !== tempId) });
-      toast.error(error.response?.data?.message || "Something went wrong");
+      set({ messages: messages });
+
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data?.message || "Something went wrong");
+      } else {
+        toast.error("Something went wrong");
+      }
     }
   },
 }));
