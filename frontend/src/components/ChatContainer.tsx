@@ -4,6 +4,7 @@ import { useChatStore } from "../store/useChatStore";
 import ChatHeader from "./ChatHeader";
 import NoChatHistoryPlaceholder from "./NoChatHistoryPlaceholder";
 import MessagesLoadingSkeleton from "./MessagesLoadingSkeleton";
+import MessageInput from "./MessageInput";
 
 const ChatContainer = () => {
   const { selectedUser, getMessagesByUserId, messages, isMessagesLoading } =
@@ -69,6 +70,7 @@ const ChatContainer = () => {
           )
         )}
       </div>
+      <MessageInput />
     </>
   );
 };
