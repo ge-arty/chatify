@@ -8,12 +8,12 @@ import authRoutes from './routes/auth.route.js';
 import messageRoutes from './routes/message.route.js';
 import { connectDB } from './lib/db.js';
 import { ENV } from './lib/env.js';
+import { app, server } from './lib/socket.js';
 
 // ✅ Recreate __dirname and __filename for ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const app = express();
 const PORT = ENV.PORT;
 
 // Middleware
@@ -36,7 +36,7 @@ if (ENV.NODE_ENV === 'production') {
 }
 
 // ✅ Start server + connect to DB
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   connectDB();
 });
