@@ -1,0 +1,57 @@
+# 💬 Chatify
+
+Chatify is a full‑stack real‑time chat application built with **React**, **TypeScript**, **Node.js**, **Express**, **MongoDB**, and **Socket.IO**.  
+It supports **user authentication**, **private messaging**, **file uploads (Cloudinary)**, and **live online status tracking** — all powered by a modern, responsive UI.
+
+---
+
+## 🚀 Features
+
+- 🔐 JWT‑based Authentication (Signup, Login, Logout, Profile Update)
+- 💬 Real‑time One‑to‑One Messaging
+- 🪄 Optimistic Message UI Updates
+- 🧑‍🤝‍🧑 Online/Offline User Presence
+- 🖼️ Image Upload and Sharing (via Cloudinary)
+- 🧩 Protected WebSocket Connections
+- 🎵 Typing Sound Effects
+- ⚡ Built with Zustand for State Management
+- 🌈 Full TypeScript Support
+- ☁️ Deployed‑ready for cloud platforms (Render, Vercel, etc.)
+
+---
+
+## 🧱 Tech Stack
+
+### Frontend
+- ⚛️ React + TypeScript  
+- 📦 Zustand (state management)  
+- 💅 TailwindCSS  
+- 🔔 React Hot Toast (notifications)  
+- 🔌 Socket.IO Client  
+
+### Backend
+- 🟢 Node.js + Express  
+- 🍃 MongoDB (via Mongoose)  
+- 🔑 JWT Authentication  
+- 🎧 Socket.IO Server  
+- ☁️ Cloudinary (image hosting)  
+- ✉️ Resend (email service)
+
+---
+
+## ⚙️ Installation
+
+### Prerequisites
+Make sure you have the following installed:
+- [Node.js (v18+)](https://nodejs.org/)
+- [MongoDB Atlas or Local MongoDB](https://www.mongodb.com/)
+- [Cloudinary Account](https://cloudinary.com/)
+- [Resend Email API Key](https://resend.com/)
+
+---
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/ge-arty/chatify.git
+cd chatify
